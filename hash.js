@@ -8,6 +8,7 @@
 // I am going to fix array size as 97.
 // this can be improved by choosing smaller arrays for small inputs
 // and then resizing as array size increases.
+// also implemented list collision avoidance.
 
 var Hash_table = function(size){
   this.items = [];
@@ -23,20 +24,32 @@ var Hash_table = function(size){
     return num%size;
   }
   this.put = function(key,val){
-    this.items[this.hash(key)] = val;
+    if(this.items[this.hash(key)] == undefined){
+      this.items[this.hash(key)] = [];
+    }
+    this.items[this.hash(key)].push([key,val]);
     return true
   }
   this.get = function(key){
-    return this.items[this.hash(key)]
+    for (items in this.items[this.hash(key)]){
+      if (this.items[this.hash(key)][items][0] === key){
+        return this.items[this.hash(key)][items][1]
+      }
+    }
+    return false;
   }
   this.remove = function(key){
-    this.items[this.hash(key)] = undefined;
-    return true
+    for (items in this.items[this.hash(key)]){
+      if (this.items[this.hash(key)][items][0] === key){
+        this.items[this.hash(key)].splice(items,1);
+      }
+    }
+    return false
   }
 }
 var hash_table = new Hash_table(97);
 hash_table.put("srinivas","codes");
 hash_table.put("sushmita","heals");
 console.log(hash_table.get("srinivas"));
-hash_table.remove("sushmita");
+hash_table.remove("srinivas");
 console.log(hash_table.get("sushmita"));
