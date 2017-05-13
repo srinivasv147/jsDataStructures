@@ -1,7 +1,9 @@
 //here I have implemented a binary search tree data structures.
 // the functions provided are given as.
-// insert(key), search(key), in_order_traverse, pre_order_traverse
-// post_order_traverse, min, max, remove(key).
+// insert(key), search(key),
+// min, max, remove(key).
+// traversals are easy so not implemented
+// if needed implement later
 
 var Tree = function(root){
   this.root = root;
@@ -54,17 +56,50 @@ var Tree = function(root){
     }
     return temp.val;
   }
+  var find_sides = function(object){
+    var temp = [];
+    if(object.left){temp.push("left");}
+    if(object.right){temp.push("right");}
+    return temp;
+  }
   this.remove = function(key){
     //three different cases
     var temp = this.search(key,1);
-    if(temp[1] === "root"){
-      return 
+    if(!temp){console.log("key not in tree");return false;}
+    // console.log(temp[1]);
+    var is_root = temp[1] === "root";
+    if(is_root){
+      var before = this.root;
     }
-    temp[0][temp[1]]
+    else {
+      var before = temp[0][temp[1]];
+    }
+    var side_array = find_sides(before);
+    var len = side_array.length;
+    if(len === 0){
+      if(is_root){this.root = null;}
+      else{temp[0][temp[1]] = null;}
+      return true;
+    }
+    if(len === 1){
+      if(is_root){this.root = this.root[side_array[0]];}
+      else{temp[0][temp[1]] = temp[0][temp[1]][side_array[0]];}
+      return true;
+    }
+    if(len === 2){
+      tree1 = new Tree(before.left);
+      var key1 = tree1.max();
+      var temp_insert = new this.Node(key1);
+      this.remove(key1);
+      // console.log(temp_insert)
+      temp_insert.left = before.left;
+      temp_insert.right = before.right;
+      // console.log(temp_insert);
+      if(is_root){this.root = temp_insert;}
+      else{temp[0][temp[1]] = temp_insert;}
+      return true;
+    }
   }
-  this.in_order_traverse = function(){}
-  this.pre_order_traverse = function(){}
-  this.post_order_traverse = function(){}
 }
 
 var tree = new Tree(null);
@@ -74,3 +109,5 @@ console.log(tree.search(3));
 console.log(tree.search(-2));
 console.log(tree.min());
 console.log(tree.max());
+console.log(tree.remove(3));
+console.log(tree.root);
