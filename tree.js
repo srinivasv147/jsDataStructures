@@ -2,8 +2,7 @@
 // the functions provided are given as.
 // insert(key), search(key),
 // min, max, remove(key).
-// traversals are easy so not implemented
-// if needed implement later
+//in_order_traversal is implemented to find all elements.
 
 var Tree = function(root){
   this.root = root;
@@ -100,6 +99,13 @@ var Tree = function(root){
       return true;
     }
   }
+  this.in_order_traversal = function(){
+    if(!this.root){return [];}
+    var tree1 = new Tree(this.root.left);
+    var tree2 = new Tree(this.root.right);
+    return tree1.in_order_traversal()
+    .concat([this.root.val].concat(tree2.in_order_traversal()));
+  }
 }
 
 var tree = new Tree(null);
@@ -111,3 +117,4 @@ console.log(tree.min());
 console.log(tree.max());
 console.log(tree.remove(3));
 console.log(tree.root);
+console.log(tree.in_order_traversal());
