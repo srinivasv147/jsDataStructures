@@ -74,5 +74,6 @@ var Avl = function (){
 //this creates a new tree object and assigns its props to avl.
 Avl.prototype = new Tree();
 var avl = new Avl;
-
+avl.insertNode(70);avl.insertNode(50);avl.insertNode(80);avl.insertNode(72);
+avl.insertNode(90);avl.insertNode(75);
 console.log(avl.root);
