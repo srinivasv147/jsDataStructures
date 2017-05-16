@@ -108,13 +108,15 @@ var Tree = function(root){
   }
 }
 
-var tree = new Tree(null);
-tree.insert(2);tree.insert(1);tree.insert(3);tree.insert(-1);tree.insert(1.5);
-console.log(tree.root.right);
-console.log(tree.search(3));
-console.log(tree.search(-2));
-console.log(tree.min());
-console.log(tree.max());
-console.log(tree.remove(3));
-console.log(tree.root);
-console.log(tree.in_order_traversal());
+// var tree = new Tree(null);
+// tree.insert(2);tree.insert(1);tree.insert(3);tree.insert(-1);tree.insert(1.5);
+// console.log(tree.root.right);
+// console.log(tree.search(3));
+// console.log(tree.search(-2));
+// console.log(tree.min());
+// console.log(tree.max());
+// console.log(tree.remove(3));
+// console.log(tree.root);
+// console.log(tree.in_order_traversal());
+
+module.exports = Tree;
