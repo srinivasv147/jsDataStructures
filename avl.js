@@ -1,3 +1,8 @@
+//here I have implemented an AVL Tree
+//this is just a tree with a different insert function
+//thus tree is iinherited but insert is not over ridden
+//as it is used in the insertNode function.
+
 var Tree = require('./tree.js');
 
 var Avl = function (){
