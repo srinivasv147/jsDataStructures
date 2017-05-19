@@ -65,12 +65,13 @@ var Graph = function(type){
     }
   }
 
-  this.bfs = function(q,searchString){
+  this.bfs = function(q,searchString,obq){
     if(typeof(q) !== "string" && !(q instanceof Array)){
       console.log("please enter a string");
       return false;
     }
     if(!(q instanceof Array)){
+      obq = [{key : q,distance : 0,path : []}];
       q = [q];
     }
     if(q.length === 0){
@@ -79,25 +80,33 @@ var Graph = function(type){
     }
     else{
       var start = q.shift();
+      var start_props = obq.shift();
       checked.push(start);
       console.log("checking",start);
+      // console.log(start_props);
       for (connection in adjList[start]){
         if(checked.indexOf(adjList[start][connection]) < 0
         && q.indexOf(adjList[start][connection]) < 0){
           // console.log(adjList[start][connection],searchString,adjList[start][connection] === searchString);
           if(adjList[start][connection] === searchString){
-            var temp = checked;
-            checked =[]
-            temp.push(searchString);
-            // console.log(temp);
-            //never return push as push returns length and adds elements
-            //inplace.
-            return temp;
+            // var temp = checked;
+            // checked =[]
+            // temp.push(searchString);
+            // // console.log(temp);
+            // //never return push as push returns length and adds elements
+            // //inplace.
+            // return temp;
+            return {key : searchString,
+              distance : start_props.distance+1,
+              path : start_props["path"].concat([start_props.key,searchString])};
           }
           q.push(adjList[start][connection]);
+          obq.push({key:adjList[start][connection],
+            distance:start_props.distance+1,
+            path:start_props["path"].concat([start_props.key])});
         }
       }
-      return this.bfs(q,searchString);
+      return this.bfs(q,searchString,obq);
     }
   }
 }
@@ -111,4 +120,4 @@ graph.addEdge("A","D");graph.addEdge("C","G");graph.addEdge("D","G");
 graph.addEdge("D","H");graph.addEdge("B","F");graph.addEdge("B","E");
 graph.addEdge("F","I");
 graph.toString();
-console.log(graph.bfs("A","F"));
+console.log(graph.bfs("A","I"));
