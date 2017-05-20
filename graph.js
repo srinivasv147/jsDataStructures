@@ -1,7 +1,6 @@
 //here I implement the graph data structure
 // the methods included are as follows:
 // addEdge,addVertex, toString, BFS, DFS, BFSShortestPath,
-// Dijkstra, Floyd-Warshall, Prim, Kruskal.
 
 var Graph = function(type){
   //keys are assumed to be strings.
