@@ -84,6 +84,30 @@ var Graph_mat = function(isDirected){
     }
     return distances;
   }
+
+  this.floydWarshall = function(){
+    var dist = [];
+    var length = this.vertices.length;
+    for (var i = 0; i < length;i++){
+      dist[i] = [];
+      for(var j = 0;j < length;j++){
+        dist[i][j] = this.graph[i][j];
+      }
+    }
+    // console.log(dist);
+    for(var k = 0;k < length;k++){
+      for(var i = 0;i < length;i++){
+        for(var j = 0;j < length;j++){
+          if(dist[i][j] > dist[i][k] + dist[k][j]){
+            dist[i][j] = dist[i][k] + dist[k][j];
+            // console.log(dist[i][k]);
+          }
+        }
+      }
+    }
+
+    return dist;
+  }
 }
 
 var graph = new Graph_mat(true);
@@ -96,3 +120,4 @@ graph.addEdge("E","D",3);graph.addEdge("E","F",2);graph.addEdge("D","F",2);
 console.log(graph.vertices);
 console.log(graph.graph);
 console.log(graph.djikstra("C"));
+console.log(graph.floydWarshall());
