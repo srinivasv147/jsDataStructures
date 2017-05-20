@@ -6,6 +6,7 @@
 var Graph = function(type){
   //keys are assumed to be strings.
   var adjList = {};
+  var vertices = [];
   this.type = type;
   this.directed = (type == "directed");
   var checked = [];
@@ -19,6 +20,14 @@ var Graph = function(type){
     return true;
   }
 
+  var makeColor = function(){
+    var colors = [];
+    for(index in vertices){
+      colors[index] = 'white';
+    }
+    return colors;
+  }
+
   this.addVertex = function(key){
     //no current version of node supports decorators.
     if(check(key)){
@@ -27,6 +36,7 @@ var Graph = function(type){
       }
       else{
         adjList[key] = [];
+        vertices.push(key);
         return true;
       }
     }
@@ -90,7 +100,7 @@ var Graph = function(type){
           // console.log(adjList[start][connection],searchString,adjList[start][connection] === searchString);
           if(adjList[start][connection] === searchString){
             // var temp = checked;
-            // checked =[]
+            checked =[]
             // temp.push(searchString);
             // // console.log(temp);
             // //never return push as push returns length and adds elements
@@ -109,6 +119,28 @@ var Graph = function(type){
       return this.bfs(q,searchString,obq);
     }
   }
+
+  this.dfs = function(callback){
+    //since funciton call stack is already a stack so we
+    //don't need a stack for DFS implementation.
+    // this is implemented based on ideas in the book.
+    var dfsIt = function(vertexIndex,callback){
+      colors[vertexIndex] = 'black';
+      callback(vertices[vertexIndex]);
+      var tempList = adjList[vertices[vertexIndex]]
+      for (neighbourIndex in tempList){
+        if(colors[vertices.indexOf(tempList[neighbourIndex])] === 'white'){
+          dfsIt(vertices.indexOf(tempList[neighbourIndex]),callback);
+        }
+      }
+    }
+    var colors = makeColor();
+    for (vertexIndex in vertices){
+      if (colors[vertexIndex] === 'white'){
+        dfsIt(vertexIndex,callback);
+      }
+    }
+  }
 }
 
 var graph = new Graph;
@@ -118,6 +150,8 @@ graph.addVertex("G");graph.addVertex("H");graph.addVertex("I");
 graph.addEdge("A","B");graph.addEdge("C","D");graph.addEdge("A","C");
 graph.addEdge("A","D");graph.addEdge("C","G");graph.addEdge("D","G");
 graph.addEdge("D","H");graph.addEdge("B","F");graph.addEdge("B","E");
-graph.addEdge("F","I");
+graph.addEdge("E","I");
 graph.toString();
 console.log(graph.bfs("A","I"));
+var callback = function(key){console.log("visiting", key);}
+graph.dfs(callback)
