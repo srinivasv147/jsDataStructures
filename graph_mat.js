@@ -108,9 +108,39 @@ var Graph_mat = function(isDirected){
 
     return dist;
   }
+
+  this.prims = function(){
+    //the minimum spanning tree of graph is found
+    var key = [];
+    var parent = [];
+    var visited = []
+    for(var i = 0;i < this.vertices.length;i++ ){
+      key[i] = Infinity;
+      parent[i] = '-1';
+      visited[i] = false;
+    }
+    key[0] = 0;
+    for(var i =0;i<this.vertices.length;i++){
+      var visInd = this.minDist(key,visited);
+      visited[visInd] = true;
+      for(var j =0;j < this.vertices.length;j++){
+        if((this.graph[visInd][j] < Infinity)
+          && (visited[j] == false)
+          && (key[j] > this.graph[visInd][j])){
+            key[j] = this.graph[visInd][j];
+            parent[j] = visInd;
+          }
+      }
+    }
+    return parent;
+  }
+
+  this.kruskal = function(){
+    
+  }
 }
 
-var graph = new Graph_mat(true);
+var graph = new Graph_mat();
 console.log(graph.graph);
 graph.addVertex("A");graph.addVertex("B");graph.addVertex("C");
 graph.addVertex("D");graph.addVertex("E");graph.addVertex("F");
@@ -121,3 +151,4 @@ console.log(graph.vertices);
 console.log(graph.graph);
 console.log(graph.djikstra("C"));
 console.log(graph.floydWarshall());
+console.log(graph.prims());
