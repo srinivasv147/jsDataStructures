@@ -136,7 +136,8 @@ var Graph_mat = function(isDirected){
   }
 
   this.kruskal = function(){
-    var parent = [];
+    var connected = [];
+    parent = []
     var dist = [];
     var u = -1;
     var v = -1;
@@ -148,8 +149,10 @@ var Graph_mat = function(isDirected){
     }
     for(var i =0;i<this.vertices.length;i++){
       dist[i] = [];
+      connected[i] = [];
       for(var j = 0;j<this.vertices.length;j++){
         dist[i][j] = this.graph[i][j];
+        connected[i][j] = 0
       }
     }
     var ne = 0;
@@ -168,13 +171,15 @@ var Graph_mat = function(isDirected){
         }
       }
       //here we get the two vertices with the lowest distance between them.
-      console.log(u,v);
+      // console.log(u,v);
       u1 = findParent(u,parent);
       v1 = findParent(v,parent);
       // console.log(u1,v1)
       if(u1 !== v1){
         // console.log("setting",u,"parent of",v);
-        if (u > v)parent[v] = u;
+        parent[v] = u;
+        connected[v][u] = 1;
+        connected[u][v] = 1;
         // if (v > u)parent[u] = v;
         // parent[u] = v;
         ne++;
@@ -182,7 +187,7 @@ var Graph_mat = function(isDirected){
       dist[u][v] = Infinity;
       dist[v][u] = Infinity;
     }
-    return parent;
+    return connected;
   }
 }
 
