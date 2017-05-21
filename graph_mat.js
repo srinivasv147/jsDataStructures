@@ -136,7 +136,53 @@ var Graph_mat = function(isDirected){
   }
 
   this.kruskal = function(){
-    
+    var parent = [];
+    var dist = [];
+    var u = -1;
+    var v = -1;
+    var findParent = function(node,parents){
+      while(parent[node]){
+        node = parents[node];
+      }
+      return node;
+    }
+    for(var i =0;i<this.vertices.length;i++){
+      dist[i] = [];
+      for(var j = 0;j<this.vertices.length;j++){
+        dist[i][j] = this.graph[i][j];
+      }
+    }
+    var ne = 0;
+    while(ne < this.vertices.length-1){
+      var min = Infinity;
+      // console.log(min);
+      for(var l = 0 ; l < this.vertices.length ; l++){
+        // console.log(l);
+        for(var m = 0;m < this.vertices.length; m++){
+          // console.log(min);
+          if(dist[l][m] < min){
+            min = dist[l][m];
+            u = l;
+            v = m;
+          }
+        }
+      }
+      //here we get the two vertices with the lowest distance between them.
+      console.log(u,v);
+      u1 = findParent(u,parent);
+      v1 = findParent(v,parent);
+      // console.log(u1,v1)
+      if(u1 !== v1){
+        // console.log("setting",u,"parent of",v);
+        if (u > v)parent[v] = u;
+        // if (v > u)parent[u] = v;
+        // parent[u] = v;
+        ne++;
+      }
+      dist[u][v] = Infinity;
+      dist[v][u] = Infinity;
+    }
+    return parent;
   }
 }
 
@@ -152,3 +198,4 @@ console.log(graph.graph);
 console.log(graph.djikstra("C"));
 console.log(graph.floydWarshall());
 console.log(graph.prims());
+console.log(graph.kruskal());
